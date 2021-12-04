@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Rent4Less</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_properties">Properties</string>
+    <string name="home_header_text">Flexible Rent...Anywhere you love</string>
+    <string name="promotional_text_one">\"Accessing our growing list of properties where you can pay rent monthly. With Rent4Less, paying rent is on your terms\"</string>
+    <string name="button_search_text">SEARCH</string>
+    <string name="title_activity_app">AppActivity</string>
+    <string name="promotional_text_four">anywhere you love</string>
+    <string name="promotional_text_three">Enjoy flexible rent</string>
+
+    <string-array name="locations_array">
+        <item>Lagos</item>
+        <item>Abuja</item>
+        <item>Kebbi</item>
+        <item>Sokoto</item>
+        <item>Niger</item>
+        <item>Benin</item>
+        <item>Kaduna</item>
+    </string-array>
+
+    <string-array name="area_array">
+        <item>West</item>
+        <item>South</item>
+        <item>North</item>
+        <item>East</item>
+    </string-array>
+
+    <string-array name="property_array">
+        <item>One Bedroom</item>
+        <item>Self-contain</item>
+        <item>Duplex</item>
+        <item>Bungalow</item>
+        <item>Condo</item>
+    </string-array>
+</resources>
