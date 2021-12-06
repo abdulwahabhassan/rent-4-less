@@ -1,12 +1,10 @@
 package com.android.rent4less.ui.views
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.rent4less.R
-import com.android.rent4less.databinding.FragmentHomeBinding
+import androidx.fragment.app.Fragment
 import com.android.rent4less.databinding.FragmentProfileBinding
 
 

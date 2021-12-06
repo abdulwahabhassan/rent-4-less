@@ -1,4 +1,4 @@
-package com.colley.android.glide
+package com.android.rent4less.ui.glide
 
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -12,7 +12,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 
-//custom class for glide image loader with which to indicate progress in time
 class GlideImageLoader(imageView: ImageView?, progressBar: ProgressBar?) {
     private val mImageView: ImageView? = imageView
     private val mProgressBar: ProgressBar? = progressBar
@@ -20,7 +19,6 @@ class GlideImageLoader(imageView: ImageView?, progressBar: ProgressBar?) {
         if (url == null || options == null) return
         onConnecting()
 
-        //set Listener & start
         ProgressAppGlideModule.expect(url, object : ProgressAppGlideModule.UIonProgressListener {
             override fun onProgress(bytesRead: Long, expectedLength: Long) {
                 mProgressBar?.progress = (100 * bytesRead / expectedLength).toInt()
@@ -29,7 +27,7 @@ class GlideImageLoader(imageView: ImageView?, progressBar: ProgressBar?) {
             override val granularityPercentage: Float
                 get() = 1.0f
         })
-        //Get com.android.rent4less.domain.models.Image
+
         if (mImageView != null) {
             Glide.with(mImageView.context)
                 .load(url)

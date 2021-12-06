@@ -1,4 +1,4 @@
-package com.colley.android.glide
+package com.android.rent4less.ui.glide
 
 import android.content.Context
 import android.os.Handler
@@ -14,8 +14,6 @@ import okio.*
 import java.io.IOException
 import java.io.InputStream
 
-//custom class that extends AppGlideModule with which networks network requests can be made and
-//responses read and used to update progress bar
 @GlideModule
 class ProgressAppGlideModule : AppGlideModule() {
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
@@ -50,9 +48,6 @@ class ProgressAppGlideModule : AppGlideModule() {
 
     interface UIonProgressListener {
         fun onProgress(bytesRead: Long, expectedLength: Long)
-
-//        Control how often the listener needs an update. 0% and 100% will always be dispatched.
-//        @return in percentage (0.2 = call [.onProgress] around every 0.2 percent of progress)
 
         val granularityPercentage: Float
     }
@@ -145,7 +140,6 @@ class ProgressAppGlideModule : AppGlideModule() {
                 }
             }
         }
-
     }
 
     companion object {

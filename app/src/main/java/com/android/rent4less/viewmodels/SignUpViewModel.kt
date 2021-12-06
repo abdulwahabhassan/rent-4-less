@@ -1,6 +1,5 @@
 package com.android.rent4less.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,17 +17,11 @@ class SignUpViewModel @Inject constructor(
     private val _newAccount = MutableLiveData<AccountResponse?>()
     val newAccount = _newAccount
 
-    private val _error = MutableLiveData<String>(null)
-    val error: LiveData<String> = _error
-
     suspend fun createNewAccount(name: String, username: String, password: String) {
         viewModelScope.launch {
             when (val result = createNewAccountUseCase.invoke(name, username, password)) {
                 is com.android.rent4less.domain.Result.Success -> {
                     _newAccount.postValue(result.data)
-                }
-                is com.android.rent4less.domain.Result.Error -> {
-                    _error.postValue(result.exception.message)
                 }
             }
         }

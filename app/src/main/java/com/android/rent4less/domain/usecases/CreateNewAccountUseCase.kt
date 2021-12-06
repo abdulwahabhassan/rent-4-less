@@ -1,6 +1,5 @@
 package com.android.rent4less.domain.usecases
 
-import com.android.rent4less.domain.models.Account
 import com.android.rent4less.domain.repository.Repository
 import javax.inject.Inject
 

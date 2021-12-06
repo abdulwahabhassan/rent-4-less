@@ -36,8 +36,7 @@ object HomePageApiModule {
 @InstallIn(SingletonComponent::class)
 object SignUpApiModule {
 
-    private const val SIGNUP_API_BASE_URL = "https://solo-crypto.herokuapp.com/api/swagger/"
-        //"https://solo-crypto.herokuapp.com/api/swagger/#/account/account_register_create/"
+    private const val SIGNUP_API_BASE_URL = "https://solo-crypto.herokuapp.com/api/"
 
     @Provides
     fun providesSignUpApi () : SignUpApi {

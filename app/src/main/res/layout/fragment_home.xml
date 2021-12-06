@@ -332,6 +332,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/available_apartments_text" />
 
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/availableApartmentsViewPager"
             android:layout_width="match_parent"
@@ -344,7 +345,6 @@
             android:id="@+id/seeAllButton"
             android:layout_width="130dp"
             android:layout_height="60dp"
-            android:layout_marginTop="32dp"
             android:backgroundTint="@color/white"
             android:text="SEE ALL"
             android:textColor="@color/green"

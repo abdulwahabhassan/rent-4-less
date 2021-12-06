@@ -1,7 +1,6 @@
 package com.android.rent4less.data.api
 
 import com.android.rent4less.BuildConfig
-import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

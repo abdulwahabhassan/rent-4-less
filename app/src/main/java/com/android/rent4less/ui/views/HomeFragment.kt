@@ -44,23 +44,24 @@ import com.android.rent4less.Utils
 import com.android.rent4less.databinding.FragmentHomeBinding
 import com.android.rent4less.domain.models.FeaturedProperties
 import com.android.rent4less.domain.models.HomePageData
-import com.android.rent4less.ui.adapters.PropertyViewPagerAdapter
+import com.android.rent4less.ui.adapters.PropertyPagerAdapter
 import com.android.rent4less.viewmodels.MainViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class HomeFragment :
-    Fragment(), AdapterView.OnItemSelectedListener, PropertyViewPagerAdapter.ItemClickedListener {
+    Fragment(), AdapterView.OnItemSelectedListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels()
     private lateinit var viewPagerFeatured: ViewPager2
     private lateinit var viewPagerAvailable: ViewPager2
-    private lateinit var viewPagerAdapterFeatured: PropertyViewPagerAdapter
-    private lateinit var viewPagerAdapterAvailable: PropertyViewPagerAdapter
+    private lateinit var pagerAdapterFeatured: PropertyPagerAdapter
+    private lateinit var pagerAdapterAvailable: PropertyPagerAdapter
     private lateinit var spinner: Spinner
 
 
@@ -218,29 +219,42 @@ class HomeFragment :
                 page.scaleY = 0.85f + r * 0.15f
             }
 
-            viewPagerAdapterFeatured =
-                homePageData?.featured_properties?.let {
-                    PropertyViewPagerAdapter(
-                        it,
-                        this@HomeFragment,
-                        requireContext()) }!!
-            viewPagerFeatured.adapter = viewPagerAdapterFeatured
+            pagerAdapterFeatured = homePageData?.featured_properties?.let {
+                PropertyPagerAdapter(it, childFragmentManager, viewLifecycleOwner.lifecycle)
+            }!!
+            viewPagerFeatured.adapter = pagerAdapterFeatured
             viewPagerFeatured.offscreenPageLimit = 3
             viewPagerFeatured.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             viewPagerFeatured.setPageTransformer(compositePageTransformer)
 
 
-            viewPagerAdapterAvailable =
-                PropertyViewPagerAdapter(
-                    homePageData.featured_properties,
-                    this@HomeFragment,
-                    requireContext()
-                )
-            viewPagerAvailable.adapter = viewPagerAdapterAvailable
+            pagerAdapterAvailable = PropertyPagerAdapter(
+                homePageData.featured_properties,
+                childFragmentManager,
+                viewLifecycleOwner.lifecycle)
+
+            viewPagerAvailable.adapter = pagerAdapterAvailable
             viewPagerAvailable.offscreenPageLimit = 3
             viewPagerAvailable.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             viewPagerAvailable.setPageTransformer(compositePageTransformer)
         })
+
+        binding.nextImageButton.setOnClickListener {
+            viewPagerAvailable.currentItem = viewPagerAvailable.currentItem + 1
+        }
+
+        binding.previousImageButton.setOnClickListener {
+            viewPagerAvailable.currentItem = viewPagerAvailable.currentItem - 1
+        }
+
+        binding.nextPropertyImageButton.setOnClickListener {
+            viewPagerFeatured.currentItem = viewPagerFeatured.currentItem + 1
+        }
+
+        binding.prevPropertyImageButton.setOnClickListener {
+            viewPagerFeatured.currentItem = viewPagerFeatured.currentItem - 1
+        }
+
     }
 
     override fun onDestroyView() {
@@ -252,7 +266,6 @@ class HomeFragment :
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
-    override fun onItemClick(user: FeaturedProperties) {}
 }
 
 @Composable

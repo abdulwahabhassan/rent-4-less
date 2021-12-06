@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/compose-model-1638780939568.xml" value="0.9963898916967509" />
         <entry key="app/src/main/res/drawable-v24/arrow_next_black.xml" value="0.144140625" />
         <entry key="app/src/main/res/drawable-v24/arrow_previous_white.xml" value="0.144140625" />
         <entry key="app/src/main/res/drawable-v24/ic_forward_arrow_white.xml" value="0.144140625" />
+        <entry key="app/src/main/res/drawable-v24/ic_prev.xml" value="0.150390625" />
         <entry key="app/src/main/res/drawable-v24/round_background_black.xml" value="0.19227799227799228" />
         <entry key="app/src/main/res/drawable-v24/search_background.xml" value="0.21574074074074073" />
         <entry key="app/src/main/res/drawable-v24/tool_bar_background.xml" value="0.21481481481481482" />
@@ -24,9 +26,11 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.21481481481481482" />
         <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.21481481481481482" />
         <entry key="app/src/main/res/drawable/ic_nav_icon.xml" value="0.21481481481481482" />
+        <entry key="app/src/main/res/drawable/ic_next.xml" value="0.150390625" />
         <entry key="app/src/main/res/drawable/ic_office.xml" value="0.19453125" />
         <entry key="app/src/main/res/drawable/ic_phone.xml" value="0.1390625" />
         <entry key="app/src/main/res/drawable/ic_phone_tools_logo.xml" value="0.1326388888888889" />
+        <entry key="app/src/main/res/drawable/ic_prev.xml" value="0.150390625" />
         <entry key="app/src/main/res/drawable/ic_profile_selected.xml" value="0.21481481481481482" />
         <entry key="app/src/main/res/drawable/ic_profile_selector.xml" value="0.21481481481481482" />
         <entry key="app/src/main/res/drawable/ic_profile_unselected.xml" value="0.21481481481481482" />
@@ -49,6 +53,7 @@
         <entry key="app/src/main/res/drawable/spinneer_background.xml" value="0.21574074074074073" />
         <entry key="app/src/main/res/drawable/spinner_background.xml" value="0.17734375" />
         <entry key="app/src/main/res/drawable/spinner_background_rounded_edged.xml" value="0.17734375" />
+        <entry key="app/src/main/res/drawable/tab_icon_selector.xml" value="0.150390625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />

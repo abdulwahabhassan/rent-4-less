@@ -21,8 +21,10 @@ class RemoteDatasourceImpl @Inject constructor(
             try {
                 val response = homePageApi.getHomePageData()
                 if (response.isSuccessful) {
+                    Log.d("apix", "${response.body()}")
                     return@withContext Result.Success(response.body()!!)
                 } else {
+                    Log.d("apix", "${response.body()}")
                     return@withContext Result.Error(
                         Exception(response.message())
                     )

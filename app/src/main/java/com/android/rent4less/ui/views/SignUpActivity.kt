@@ -1,17 +1,14 @@
 package com.android.rent4less.ui.views
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.android.rent4less.R
 import com.android.rent4less.Utils
-import com.android.rent4less.databinding.ActivityMainBinding
 import com.android.rent4less.databinding.ActivitySignUpBinding
-import com.android.rent4less.domain.models.Account
 import com.android.rent4less.viewmodels.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

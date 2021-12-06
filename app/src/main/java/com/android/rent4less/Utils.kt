@@ -1,10 +1,6 @@
 package com.android.rent4less
 
-import android.content.Context
-import android.util.Log
 import com.android.rent4less.domain.models.HomePageData
-import com.google.gson.Gson
-import java.io.IOException
 
 object Utils {
 
