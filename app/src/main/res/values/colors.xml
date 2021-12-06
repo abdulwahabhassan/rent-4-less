@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#6AB950</color>
     <color name="spinner_gray">#EBE9E9</color>
-    <color name="darkGray">#787D76</color>
+    <color name="darkGray">#4A4A54</color>
+    <color name="darkerGray">#515350</color>
     <color name="orange">#ED6638</color>
 </resources>

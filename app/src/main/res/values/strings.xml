@@ -7,35 +7,50 @@
     <string name="title_profile">Profile</string>
     <string name="title_settings">Settings</string>
     <string name="title_properties">Properties</string>
-    <string name="home_header_text">Flexible Rent...Anywhere you love</string>
-    <string name="promotional_text_one">\"Accessing our growing list of properties where you can pay rent monthly. With Rent4Less, paying rent is on your terms\"</string>
+    <string name="home_header_text">Flexible Rent…Anywhere you love</string>
+    <string name="promotional_text_one">\"Accessing our growing list of properties where you can
+        pay rent monthly. With Rent4Less, paying rent is on your terms\"</string>
     <string name="button_search_text">SEARCH</string>
     <string name="title_activity_app">AppActivity</string>
     <string name="promotional_text_four">anywhere you love</string>
     <string name="promotional_text_three">Enjoy flexible rent</string>
+    <string name="promotional_text_five">Join our growing community.\nPay rent monthly?</string>
+    <string name="promotional_text_6">1. No Agent Fee\n2. No commission\n3. Pay and Pack in</string>
+    <string name="promotional_text_7">GET STARTED</string>
+    <string name="promotional_text_9">1. Earn steady rental income on your property\n2. Earn your
+        property with Africa\'s best facilities Mgt. Company\n3. Start immediately</string>
+    <string name="promotional_text_eight">Want to rent your building(s)?</string>
+    <string name="promotional_text_who_we_are">Rent4Less by Alpha Mead is a rental scheme designed
+        to provide a flexible and convenient option for middle income Nigerians to rent homes. With
+        this scheme, you can now spread out payment for apartments in choice locations, by paying a
+        specified rate, on a monthly basis.</string>
+    <string name="about_rent4less_text">About Rent4Less</string>
+    <string name="who_are_we_text">WHO ARE WE</string>
+    <string name="read_more_text">READ MORE</string>
+    <string name="testimony_text">Rent4Less is for us, more than a product. It is a responsibility.
+        A responsibility to ensure middle- income Nigerians put their money in other viable investment
+        assets, rather rents that returns nothing at the end of the year. It is a responsibility to
+        demonstrate to investors in Real Estate that rental income is possible“</string>
+    <string name="head_of_operations_text">Head of Operations</string>
+    <string name="news_letter_text">Be the first to know About \nNew Homes. \nSubscribe to our Newsletter.</string>
+    <string name="subscribe_text">SUBSCRIBE</string>
+    <string name="people_saying_about_rent4less_text">What \npeople \nare \nsaying \nabout \nRent4less</string>
+    <string name="need_help_setting_up_your_apartment_text">Need help setting up your apartment?</string>
+    <string name="download_call2fix_text">Download\nCall2Fix</string>
+    <string name="get_it_on_napple_store_text">GET IT ON\nApple Store</string>
+    <string name="get_it_on_ngoogle_play_text">GET IT ON\nGoogle Play</string>
+    <string name="i_agree_with_terms_and_condition_text">I agree with terms and condition</string>
+    <string name="already_have_an_account_text">Already have an account?</string>
+    <string name="create_account_text">Create Account</string>
+    <string name="see_all_text">SEE ALL</string>
+    <string name="username_empty_text">Either name or username is empty</string>
+    <string name="select_checkbox_text">Select checkbox to create an account</string>
+    <string name="passwords_match_text">Passwords do not match!</string>
 
-    <string-array name="locations_array">
-        <item>Lagos</item>
-        <item>Abuja</item>
-        <item>Kebbi</item>
-        <item>Sokoto</item>
-        <item>Niger</item>
-        <item>Benin</item>
-        <item>Kaduna</item>
-    </string-array>
-
-    <string-array name="area_array">
-        <item>West</item>
-        <item>South</item>
-        <item>North</item>
-        <item>East</item>
-    </string-array>
-
-    <string-array name="property_array">
-        <item>One Bedroom</item>
-        <item>Self-contain</item>
-        <item>Duplex</item>
-        <item>Bungalow</item>
-        <item>Condo</item>
+    <string-array name="subscriptions_array">
+        <item>Villa</item>
+        <item>Suite</item>
+        <item>Penthouse</item>
+        <item>Flats</item>
     </string-array>
 </resources>

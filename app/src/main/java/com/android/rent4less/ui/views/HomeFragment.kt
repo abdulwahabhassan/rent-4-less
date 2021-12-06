@@ -4,44 +4,65 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
 import com.android.rent4less.R
+import com.android.rent4less.Utils
 import com.android.rent4less.databinding.FragmentHomeBinding
+import com.android.rent4less.domain.models.FeaturedProperties
+import com.android.rent4less.domain.models.HomePageData
+import com.android.rent4less.ui.adapters.PropertyViewPagerAdapter
+import com.android.rent4less.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
+
+@AndroidEntryPoint
+class HomeFragment :
+    Fragment(), AdapterView.OnItemSelectedListener, PropertyViewPagerAdapter.ItemClickedListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val mapOfSelections = mutableMapOf<String, String>()
+    private val viewModel: MainViewModel by activityViewModels()
+    private lateinit var viewPagerFeatured: ViewPager2
+    private lateinit var viewPagerAvailable: ViewPager2
+    private lateinit var viewPagerAdapterFeatured: PropertyViewPagerAdapter
+    private lateinit var viewPagerAdapterAvailable: PropertyViewPagerAdapter
+    private lateinit var spinner: Spinner
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,9 +71,13 @@ class HomeFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        viewPagerFeatured = binding.featuredPropertyViewPager
+        viewPagerAvailable = binding.availableApartmentsViewPager
+
+        spinner = binding.subscriptionSpinner
+
         binding.composeView.apply {
-            // Dispose of the Composition when the view's LifecycleOwner
-            // is destroyed
+
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
 
@@ -61,6 +86,19 @@ class HomeFragment : Fragment() {
                     Column(
                         modifier = Modifier.padding(16.dp),
                         verticalArrangement = Arrangement.SpaceEvenly) {
+
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            viewModel.getHomePageData()
+                        }
+
+                        var locations by rememberSaveable { mutableStateOf(arrayListOf<String>())}
+                        var propertyTypes by rememberSaveable { mutableStateOf(arrayListOf<String>())}
+                        val area by rememberSaveable { mutableStateOf(arrayListOf<String>())}
+                        var selectedLocation by rememberSaveable { mutableStateOf("")}
+                        var selectedArea by rememberSaveable { mutableStateOf("")}
+                        var selectedProperty by rememberSaveable { mutableStateOf("")}
+
+                        val homePageData by viewModel.homePageData.observeAsState(HomePageData())
 
                         Row(
                             modifier = Modifier
@@ -73,20 +111,39 @@ class HomeFragment : Fragment() {
                                 modifier = Modifier,
                                 readOnly = false,
                                 enabled = true,
-                                name = "locations",
+                                name = "Locations",
                                 defaultSymbol = "Location",
-                                listOfItems = arrayListOf("Boy", "Girl", "Man", "Woman"),
-                                onSymbolSelected = { name, selected ->  mapOfSelections[name] = selected }
+                                listOfItems = locations,
+                                homePageData = homePageData,
+                                onSymbolSelected = { selected ->
+                                    selectedLocation = selected
+                                    if (selectedLocation != "Locations") {
+                                        for (location in homePageData?.location!!) {
+                                            if(location?.name == selected) {
+                                                location.cities?.forEach { city ->
+                                                    city?.name?.let { area.add(it) }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        area.clear()
+                                    }
+                                },
+                                onDropDownClicked = {
+                                    locations = Utils.getLocations(homePageData)
+                                }
                             )
 
                             DropDownEditText(
                                 modifier = Modifier,
                                 readOnly = false,
                                 enabled = true,
-                                name = "locations",
+                                name = "Area",
                                 defaultSymbol = "Area",
-                                listOfItems = arrayListOf("Boy", "Girl", "Man", "Woman"),
-                                onSymbolSelected = { name, selected ->  mapOfSelections[name] = selected }
+                                listOfItems = area,
+                                homePageData = homePageData,
+                                onSymbolSelected = { selected ->  selectedArea = selected },
+                                onDropDownClicked = { }
                             )
                         }
 
@@ -101,10 +158,14 @@ class HomeFragment : Fragment() {
                                 modifier = Modifier,
                                 readOnly = false,
                                 enabled = true,
-                                name = "locations",
-                                defaultSymbol = "Type",
-                                listOfItems = arrayListOf("Boy", "Girl", "Man", "Woman"),
-                                onSymbolSelected = { name, selected ->  mapOfSelections[name] = selected }
+                                name = "Property Type",
+                                defaultSymbol = "Property",
+                                listOfItems = propertyTypes,
+                                homePageData = homePageData,
+                                onSymbolSelected = { selected ->  selectedProperty = selected },
+                                onDropDownClicked = { homePageData ->
+                                    propertyTypes = Utils.getPropertyTypes(homePageData)
+                                }
                             )
 
                             Button(
@@ -127,15 +188,71 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        spinner.onItemSelectedListener = this
+
+        viewModel.homePageData.observe(viewLifecycleOwner, { homePageData ->
+
+            binding.apartmentCountTextView.text = homePageData?.apartments.toString()
+            binding.happyCustomerCountTextView.text = homePageData?.customers.toString()
+            binding.roomCountTextView.text = homePageData?.bedrooms.toString()
+            binding.officeCountTextView.text = homePageData?.office_space.toString()
+
+            val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                Utils.getSpinnerItems(homePageData)
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+
+            val compositePageTransformer = CompositePageTransformer()
+            compositePageTransformer.addTransformer(MarginPageTransformer(40))
+            compositePageTransformer.addTransformer { page, position ->
+                val r = 1 - Math.abs(position)
+                page.scaleY = 0.85f + r * 0.15f
+            }
+
+            viewPagerAdapterFeatured =
+                homePageData?.featured_properties?.let {
+                    PropertyViewPagerAdapter(
+                        it,
+                        this@HomeFragment,
+                        requireContext()) }!!
+            viewPagerFeatured.adapter = viewPagerAdapterFeatured
+            viewPagerFeatured.offscreenPageLimit = 3
+            viewPagerFeatured.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            viewPagerFeatured.setPageTransformer(compositePageTransformer)
+
+
+            viewPagerAdapterAvailable =
+                PropertyViewPagerAdapter(
+                    homePageData.featured_properties,
+                    this@HomeFragment,
+                    requireContext()
+                )
+            viewPagerAvailable.adapter = viewPagerAdapterAvailable
+            viewPagerAvailable.offscreenPageLimit = 3
+            viewPagerAvailable.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            viewPagerAvailable.setPageTransformer(compositePageTransformer)
+        })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {}
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+    override fun onItemClick(user: FeaturedProperties) {}
 }
 
 @Composable
@@ -146,7 +263,9 @@ fun DropDownEditText(
     name: String,
     defaultSymbol: String,
     listOfItems: ArrayList<String>,
-    onSymbolSelected: (String, String) -> Unit
+    homePageData: HomePageData?,
+    onSymbolSelected: (String) -> Unit,
+    onDropDownClicked: (HomePageData) -> Unit
 ) {
 
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
@@ -166,13 +285,14 @@ fun DropDownEditText(
                 .onGloballyPositioned { coordinates ->
                     textFieldSize = coordinates.size.toSize()
                 },
+            enabled = false,
             readOnly = readOnly,
             value = selectedSymbol,
             singleLine = true,
             textStyle = LocalTextStyle.current.copy(fontSize = 13.sp),
             onValueChange = { newInput ->
                 selectedSymbol = newInput
-                onSymbolSelected(name, newInput)
+                onSymbolSelected(newInput)
             },
             trailingIcon = {
                 Icon(
@@ -180,8 +300,23 @@ fun DropDownEditText(
                     contentDescription = if (isExpanded) "Show less" else "Show more",
                     Modifier
                         .clip(CircleShape)
-                        .clickable(enabled = enabled) { isExpanded = !isExpanded },
-                    tint = MaterialTheme.colors.onSecondary
+                        .clickable(enabled = enabled) {
+                            isExpanded = !isExpanded
+                            if (name == "Locations") {
+                                if (homePageData != null) {
+                                onDropDownClicked(homePageData)
+                                }
+                            } else if (name == "Area") {
+                                if (homePageData != null) {
+                                    onDropDownClicked(homePageData)
+                                }
+                            } else if (name == "Property Type") {
+                                if (homePageData != null) {
+                                    onDropDownClicked(homePageData)
+                                }
+                            }
+                                                      },
+                    tint = colorResource(id = R.color.darkGray)
                 )
             },
             colors = TextFieldDefaults.textFieldColors(
@@ -205,11 +340,16 @@ fun DropDownEditText(
                 DropdownMenuItem(
                     onClick = {
                         selectedSymbol = item
-                        onSymbolSelected(name, item)
+                        onSymbolSelected(item)
                         isExpanded = false
                     }
                 ) {
-                    Text(text = item, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                    Text(
+                        text = item,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp,
+                        color = colorResource(id = R.color.darkGray)
+                    )
                 }
             }
         }

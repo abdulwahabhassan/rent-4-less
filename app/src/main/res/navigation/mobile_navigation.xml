@@ -28,4 +28,5 @@
         android:name="com.android.rent4less.ui.views.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+
 </navigation>
